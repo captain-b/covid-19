@@ -1,19 +1,41 @@
 import Request from '../utils/request'
 
 export const Home = async function (req, res) {
+	var filteredCountrtData = [];
+
 	try {
-		console.log('test');
-		const test = await Request.get('countries');
-		test.map((country) => {
-			if (country.countryInfo.iso3 === null)
-				console.log(country);
-			// else
-			// 	console.log(country.countryInfo.iso3);
+		const countryList = await Request.get('countries'); // Request a list of all the available countries
+
+		countryList.map(({continent, country, countryInfo, cases, todayCases, deaths, todayDeaths, recovered}) => { // Go through the items in the list and extract some params
+			if (countryInfo.iso3 !== null) {
+				
+				const iso3 = countryInfo.iso3;
+				const flag = countryInfo.flag;
+
+				filteredCountrtData.push({ // Change the data fashion and push them to our array
+					continent,
+					country,
+					flag,
+					iso3,
+					cases: {
+						today: todayCases,
+						total: cases
+					},
+					deaths: {
+						today: todayDeaths,
+						total: deaths
+					},
+					recovered: {
+						today: todayRecovered,
+						total: recovered
+					}
+				});
+			}
 		});
-	} catch (error) {
-		console.log('test2');
-		console.log(error);
+	} catch (error) { // TODO: Add more error handling
+		res.status(410).send({description: 'There was an error calling the third party API.'});
+		return;
 	}
 
-    res.send('hi');
+    res.send(filteredCountrtData); // Send the filtered list as a the response
 };
