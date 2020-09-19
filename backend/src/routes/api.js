@@ -1,10 +1,10 @@
-// import {
-//     AddUser, DisableVPN,
-// } from "../handlers/api";
+import {
+    Home
+} from "../handlers/api";
 
 
 const RegisterRoutes = (app) => {
-    // app.post('/', AddUser);
+    app.get('/get_countries', Home);
 };
 
 export default RegisterRoutes;
