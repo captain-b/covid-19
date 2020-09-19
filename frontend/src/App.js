@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="app">
-    <div className="app_left">
+    <div className="app__left">
       <div className="app__header">
 
         <h1>Covid-19 tracker app.</h1>
@@ -41,10 +41,7 @@ function App() {
           <Select variant="outlined" value={selectedCountry} onChange={countryChange}>
           <MenuItem value="worldwide">World Wide</MenuItem>
           {
-            countries.map(country => (
-              /* <MenuItem value={country.country}>{country.iso3}</MenuItem> */
-              <MenuItem value={country.iso3}>{country.country} ({country.iso3})</MenuItem>
-            ))
+            countries.map(country => (<MenuItem value={country.iso3}>{country.country} ({country.iso3})</MenuItem>))
           }
           </Select>
         </FormControl>
@@ -59,7 +56,7 @@ function App() {
       <Maps />
 
     </div>
-    <Card className="app_right">
+    <Card className="app__right">
       <CardContent>
         {/* Table */}
         {/* Graph */}
