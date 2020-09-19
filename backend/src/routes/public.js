@@ -1,6 +1,6 @@
 import {
     Home,
-} from "../handlers/api";
+} from "../handlers/public";
 
 const RegisterPublicRoutes = (app) => {
     app.get('/', Home);
