@@ -7,7 +7,7 @@ export const Home = async function (req, res) {
 		const countryList = await Request.get('countries'); // Request a list of all the available countries
 
 		filteredCountrtData = countryList.map(({continent, country, countryInfo, cases, todayCases, deaths, todayDeaths, todayRecovered, recovered}) => { // Go through the items in the list and extract some params
-			if (countryInfo.iso3 !== null) {
+			if (countryInfo.iso3 !== null || country !== null) {
 				
 				const iso3 = countryInfo.iso3;
 				const flag = countryInfo.flag;
