@@ -1,4 +1,5 @@
-import Request from '../utils/request'
+import Request from '../utils/request';
+const apiCallFailedMessage = 'There was an error calling the third party API.';
 
 export const CountryList = async function (req, res) {
 	var filteredCountrtData = [];
@@ -33,7 +34,7 @@ export const CountryList = async function (req, res) {
 			}
 		});
 	} catch (error) { // TODO: Add more error handling
-		res.status(410).send({description: 'There was an error calling the third party API.'});
+		res.status(410).send({description: apiCallFailedMessage});
 		return;
 	}
 
@@ -41,9 +42,26 @@ export const CountryList = async function (req, res) {
 };
 
 export const WorldWideData = async function (req, res) {
+	try {
+		const globalInfo = await Request.get('all');
 
+		res.send({
+			cases: globalInfo.cases,
+			today: globalInfo.todayCases,
+			deaths: globalInfo.deaths,
+			deathsToday: globalInfo.todayDeaths,
+			recovered: globalInfo.recovered,
+			recoveredToday: globalInfo.todayRecovered
+		});
+	} catch (error) {  // TODO: Add more error handling
+		res.status(410).send({description: apiCallFailedMessage});
+	}
 };
 
 export const CountryData = async function (req, res) {
-
+	try {
+		// const countryInfo = await Request.get(`countries/${req.params.country}`);
+	} catch (error) {  // TODO: Add more error handling
+		res.status(410).send({description: apiCallFailedMessage});
+	}
 };
