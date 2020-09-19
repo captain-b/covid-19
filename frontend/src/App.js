@@ -8,26 +8,46 @@ function App() {
 
   const [countries, setCountries] = useState([{country: "Country"}]);
   const [selectedCountry, setSelectedCountry] = useState('worldwide');
+  const [selectedCountryData, setSelectedCountryData] = useState('info');
+
+  useEffect(async () => {
+    try {
+      const info = await (await fetch('/get_countries/worldwide')).json();
+      setSelectedCountryData(info); // Set and display the selected country
+    } catch (error) {
+      handleError(error);
+    }
+  },[]);
+
+  function handleError(error) { // TODO: Rework this logic.
+    alert('There was a problem fetching some data. please try again later.');
+    console.log("there was an error", error);
+  }
 
   useEffect(() =>  {
-
     const getCountrylist = async () => {
       try {
         const countryList = await (await fetch('/get_countries')).json();
         setCountries(countryList); // Set our countries object to our country list array.
-      } catch (error) { // TODO: Rework this logic.
-        alert('There was a problem fetching some data. please try again later.');
-        console.log("there was an error", error);
+      } catch (error) {
+        handleError(error);
       }
     }
-
     getCountrylist(); // Request the countries list from the backend.
-
   }, []);
 
   const countryChange = async (e) => {
     const countryCode = e.target.value;
-    setSelectedCountry(countryCode);
+    setSelectedCountry(countryCode); // Set and display the selected country
+
+    const endpoint = countryCode === 'worldwide' ? '/get_countries/worldwide' : `/get_countries/${countryCode}`;
+
+    try {
+      const info = await (await fetch(endpoint)).json();
+      setSelectedCountryData(info); // Set and display the selected country
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   return (
@@ -48,9 +68,9 @@ function App() {
       </div>
 
       <div className="app__stats">
-        <InfoBox title="Coronavirus Cases" cases={123} totalCases={123} />
-        <InfoBox title="Recovered Cases" cases={123} totalCases={123} />
-        <InfoBox title="Deaths" cases={123} totalCases={123} />
+        <InfoBox title="Coronavirus Cases" cases={selectedCountryData.today} totalCases={selectedCountryData.cases} />
+        <InfoBox title="Recovered Cases" cases={selectedCountryData.recoveredToday} totalCases={selectedCountryData.recovered} />
+        <InfoBox title="Deaths" cases={selectedCountryData.deathsToday} totalCases={selectedCountryData.deaths} />
       </div>
 
       <Maps />
