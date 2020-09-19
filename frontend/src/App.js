@@ -8,7 +8,7 @@ function App() {
 
   const [countries, setCountries] = useState([{country: "Country"}]);
   const [selectedCountry, setSelectedCountry] = useState('worldwide');
-  const [selectedCountryData, setSelectedCountryData] = useState('info');
+  const [selectedCountryData, setSelectedCountryData] = useState({});
 
   useEffect(async () => {
     try {
@@ -68,9 +68,9 @@ function App() {
       </div>
 
       <div className="app__stats">
-        <InfoBox title="Coronavirus Cases" cases={selectedCountryData.today} totalCases={selectedCountryData.cases} />
-        <InfoBox title="Recovered Cases" cases={selectedCountryData.recoveredToday} totalCases={selectedCountryData.recovered} />
-        <InfoBox title="Deaths" cases={selectedCountryData.deathsToday} totalCases={selectedCountryData.deaths} />
+        <InfoBox title="Coronavirus Cases:" cases={selectedCountryData.today} totalCases={selectedCountryData.cases} />
+        <InfoBox title="Recovered Cases:" cases={selectedCountryData.recoveredToday} totalCases={selectedCountryData.recovered} />
+        <InfoBox title="Deaths:" cases={selectedCountryData.deathsToday} totalCases={selectedCountryData.deaths} />
       </div>
 
       <Maps />
