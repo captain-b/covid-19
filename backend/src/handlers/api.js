@@ -6,13 +6,13 @@ export const Home = async function (req, res) {
 	try {
 		const countryList = await Request.get('countries'); // Request a list of all the available countries
 
-		countryList.map(({continent, country, countryInfo, cases, todayCases, deaths, todayDeaths, todayRecovered, recovered}) => { // Go through the items in the list and extract some params
-			if (countryInfo.iso3 !== null) {
+		filteredCountrtData = countryList.map(({continent, country, countryInfo, cases, todayCases, deaths, todayDeaths, todayRecovered, recovered}) => { // Go through the items in the list and extract some params
+			if (countryInfo.iso3 !== null || country !== null) {
 				
 				const iso3 = countryInfo.iso3;
 				const flag = countryInfo.flag;
 
-				filteredCountrtData.push({ // Change the data fashion and push them to our array
+				return { // Change the data fashion and push them to our array
 					continent,
 					country,
 					flag,
@@ -29,7 +29,7 @@ export const Home = async function (req, res) {
 						today: todayRecovered,
 						total: recovered
 					}
-				});
+				};
 			}
 		});
 	} catch (error) { // TODO: Add more error handling
