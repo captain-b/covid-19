@@ -60,7 +60,16 @@ export const WorldWideData = async function (req, res) {
 
 export const CountryData = async function (req, res) {
 	try {
-		// const countryInfo = await Request.get(`countries/${req.params.country}`);
+		const countryInfo = await Request.get(`countries/${req.params.country}`);
+
+		res.send({
+			cases: countryInfo.cases,
+			today: countryInfo.todayCases,
+			deaths: countryInfo.deaths,
+			deathsToday: countryInfo.todayDeaths,
+			recovered: countryInfo.recovered,
+			recoveredToday: countryInfo.todayRecovered
+		});
 	} catch (error) {  // TODO: Add more error handling
 		res.status(410).send({description: apiCallFailedMessage});
 	}
