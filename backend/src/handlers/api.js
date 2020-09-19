@@ -12,7 +12,7 @@ export const Home = async function (req, res) {
 				const iso3 = countryInfo.iso3;
 				const flag = countryInfo.flag;
 
-				return [{ // Change the data fashion and push them to our array
+				return { // Change the data fashion and push them to our array
 					continent,
 					country,
 					flag,
@@ -29,7 +29,7 @@ export const Home = async function (req, res) {
 						today: todayRecovered,
 						total: recovered
 					}
-				}];
+				};
 			}
 		});
 	} catch (error) { // TODO: Add more error handling
