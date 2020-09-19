@@ -1,6 +1,6 @@
 import Request from '../utils/request'
 
-export const Home = async function (req, res) {
+export const CountryList = async function (req, res) {
 	var filteredCountrtData = [];
 
 	try {
@@ -38,4 +38,12 @@ export const Home = async function (req, res) {
 	}
 
     res.send(filteredCountrtData); // Send the filtered list as a the response
+};
+
+export const WorldWideData = async function (req, res) {
+
+};
+
+export const CountryData = async function (req, res) {
+
 };
