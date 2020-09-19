@@ -6,7 +6,7 @@ export const Home = async function (req, res) {
 	try {
 		const countryList = await Request.get('countries'); // Request a list of all the available countries
 
-		countryList.map(({continent, country, countryInfo, cases, todayCases, deaths, todayDeaths, recovered}) => { // Go through the items in the list and extract some params
+		countryList.map(({continent, country, countryInfo, cases, todayCases, deaths, todayDeaths, todayRecovered, recovered}) => { // Go through the items in the list and extract some params
 			if (countryInfo.iso3 !== null) {
 				
 				const iso3 = countryInfo.iso3;
