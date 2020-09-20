@@ -39,9 +39,9 @@ export const showDataOnMap = (data, caseType) =>
 		<div className="info-container">
 			<div className="info-flag" style={{backgroundImage: `url(${country.flag})`}}></div>
 			<div className="info-name">{country.country}</div>
-			<div className="info-confirmed">Cases: {numeral(country.cases.total).format('0')}</div>
-			<div className="info-recovered">Recovered: {numeral(country.recovered.total).format('0')}</div>
-			<div className="info-deaths">Deaths: {numeral(country.deaths.total).format('0')}</div>
+			<div className="info-confirmed">Cases: {numeral(country.cases.total).format('0,0')}</div>
+			<div className="info-recovered">Recovered: {numeral(country.recovered.total).format('0,0')}</div>
+			<div className="info-deaths">Deaths: {numeral(country.deaths.total).format('0,0')}</div>
 		</div>
 		</Popup>
 		</Circle>
