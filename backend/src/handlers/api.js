@@ -12,11 +12,13 @@ export const CountryList = async function (req, res) {
 				
 				const iso3 = countryInfo.iso3;
 				const flag = countryInfo.flag;
+				const location = {lat: countryInfo.lat, long: countryInfo.long};
 
 				return { // Change the data fashion and push them to our array
 					continent,
 					country,
 					flag,
+					location,
 					iso3,
 					cases: {
 						today: todayCases,
@@ -68,7 +70,8 @@ export const CountryData = async function (req, res) {
 			deaths: countryInfo.deaths,
 			deathsToday: countryInfo.todayDeaths,
 			recovered: countryInfo.recovered,
-			recoveredToday: countryInfo.todayRecovered
+			recoveredToday: countryInfo.todayRecovered,
+			location: {lat: countryInfo.countryInfo.lat, long: countryInfo.countryInfo.long}
 		});
 	} catch (error) {  // TODO: Add more error handling
 		res.status(410).send({description: apiCallFailedMessage});
