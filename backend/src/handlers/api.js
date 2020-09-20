@@ -1,6 +1,7 @@
-import Request from '../utils/request'
+import Request from '../utils/request';
+const apiCallFailedMessage = 'There was an error calling the third party API.';
 
-export const Home = async function (req, res) {
+export const CountryList = async function (req, res) {
 	var filteredCountrtData = [];
 
 	try {
@@ -17,14 +18,10 @@ export const Home = async function (req, res) {
 					country,
 					flag,
 					iso3,
-					cases: {
-						today: todayCases,
-						total: cases
-					},
-					deaths: {
-						today: todayDeaths,
-						total: deaths
-					},
+					casesToday: todayCases,
+					totalCases: cases,
+					deathsToday: todayDeaths,
+					totalDeaths: deaths,
 					recovered: {
 						today: todayRecovered,
 						total: recovered
@@ -33,9 +30,43 @@ export const Home = async function (req, res) {
 			}
 		});
 	} catch (error) { // TODO: Add more error handling
-		res.status(410).send({description: 'There was an error calling the third party API.'});
+		res.status(410).send({description: apiCallFailedMessage});
 		return;
 	}
 
     res.send(filteredCountrtData); // Send the filtered list as a the response
+};
+
+export const WorldWideData = async function (req, res) {
+	try {
+		const globalInfo = await Request.get('all');
+
+		res.send({
+			cases: globalInfo.cases,
+			today: globalInfo.todayCases,
+			deaths: globalInfo.deaths,
+			deathsToday: globalInfo.todayDeaths,
+			recovered: globalInfo.recovered,
+			recoveredToday: globalInfo.todayRecovered
+		});
+	} catch (error) {  // TODO: Add more error handling
+		res.status(410).send({description: apiCallFailedMessage});
+	}
+};
+
+export const CountryData = async function (req, res) {
+	try {
+		const countryInfo = await Request.get(`countries/${req.params.country}`);
+
+		res.send({
+			cases: countryInfo.cases,
+			today: countryInfo.todayCases,
+			deaths: countryInfo.deaths,
+			deathsToday: countryInfo.todayDeaths,
+			recovered: countryInfo.recovered,
+			recoveredToday: countryInfo.todayRecovered
+		});
+	} catch (error) {  // TODO: Add more error handling
+		res.status(410).send({description: apiCallFailedMessage});
+	}
 };
