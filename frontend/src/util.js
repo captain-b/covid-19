@@ -27,8 +27,8 @@ export const sortData = (data) => {
 	return data.sort((a, b) => (a.cases.today > b.cases.today ? -1 : 1));
 }
 
-export const showDataOnMap = (data) => {
-	return data.map(country => (
+export const showDataOnMap = (data) =>
+	data.map(country => (
 		<Circle center={[country.location.lat, country.location.long]}
 		color={casesTypeColors.cases.hex}
 		fillOpacity={0.4}
@@ -46,4 +46,6 @@ export const showDataOnMap = (data) => {
 		</Popup>
 		</Circle>
 	));
-}
+
+export const prettyPrintStat = (stat) =>
+	stat ? `+${numeral(stat).format('0.0a')}` : '+0'
