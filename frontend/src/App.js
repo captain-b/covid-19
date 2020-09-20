@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {MenuItem, Select, FormControl, Card, CardContent} from '@material-ui/core'
 import './App.css';
+import 'leaflet/dist/leaflet.css';
 import InfoBox from './InfoBox';
-import Maps from './Maps';
+import Map from './Map.js';
 import Table from './Table';
+import LineGraph from './LineGraph';
+import {sortData} from './util';
 
 function App() {
 
@@ -32,6 +35,7 @@ function App() {
     const getCountrylist = async () => {
       try {
         const countryList = await (await fetch('/get_countries')).json();
+        sortData(countryList);
         setCountries(countryList); // Set our countries object to our country list array.
       } catch (error) {
         handleError(error);
@@ -77,13 +81,14 @@ function App() {
         <InfoBox title="Deaths:" cases={selectedCountryData.deathsToday} totalCases={selectedCountryData.deaths} />
       </div>
 
-      <Maps />
+      <Map center={mapCenter} zoom={mapZoom} />
 
     </div>
     <Card className="app__right">
       <CardContent>
-        <h3>Live Cases by Country</h3>
+        <h3>Live Cases Today</h3>
         <Table countries={countries} />
+        <LineGraph />
         {/* Graph */}
       </CardContent>
     </Card>
