@@ -6,7 +6,7 @@ import InfoBox from './InfoBox';
 import Map from './Map.js';
 import Table from './Table';
 import LineGraph from './LineGraph';
-import {sortData} from './util';
+import {sortData, prettyPrintStat} from './util';
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
   const [mapCenter, setMapCenter] = useState({lat: 54.5260, lng: 15.2551});
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries]= useState([]);
+  const [casesType, setCasesType] = useState('cases');
 
   useEffect(() => {
     async function loadCountries() {
@@ -83,12 +84,12 @@ function App() {
       </div>
 
       <div className="app__stats">
-        <InfoBox title="Coronavirus Cases:" cases={selectedCountryData.today} totalCases={selectedCountryData.cases} />
-        <InfoBox title="Recovered Cases:" cases={selectedCountryData.recoveredToday} totalCases={selectedCountryData.recovered} />
-        <InfoBox title="Deaths:" cases={selectedCountryData.deathsToday} totalCases={selectedCountryData.deaths} />
+        <InfoBox onClick={e => setCasesType('cases')} title="Today's Cases:" cases={prettyPrintStat(selectedCountryData.today)} totalCases={prettyPrintStat(selectedCountryData.cases)} />
+        <InfoBox onClick={e => setCasesType('recovered')} title="Recovered Today:" cases={prettyPrintStat(selectedCountryData.recoveredToday)} totalCases={prettyPrintStat(selectedCountryData.recovered)} />
+        <InfoBox onClick={e => setCasesType('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
       </div>
 
-      <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+      <Map cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
 
     </div>
     <Card className="app__right">
