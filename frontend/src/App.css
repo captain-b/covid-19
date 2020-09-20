@@ -6,6 +6,10 @@ body {
 	background-color: #f5f6fa;
 }
 
+.app__dropdown {
+	background-color: white;
+}
+
 .app__header {
   display: flex;
   justify-content: space-between;
