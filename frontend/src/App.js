@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {MenuItem, Select, FormControl, Card, CardContent} from '@material-ui/core'
 import './App.css';
 import InfoBox from './InfoBox';
-import Maps from './Maps';
+import Map from './Map.js';
 import Table from './Table';
 import {sortData} from './util'
 import LineGraph from './LineGraph';
