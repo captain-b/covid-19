@@ -5,10 +5,8 @@ const deseasesURL = 'https://disease.sh/v3/covid-19';
 export default class Request {
 	static async get(url, params) {
 		try {
-			// Convert params to correct format
-			// const stringParams = Object.keys(params).map(key => key + '=' + params[key]).join('&');
 			// Create the full URL
-			const fullURL = `${deseasesURL}/${url}`;
+			const fullURL = params ? `${deseasesURL}/${url}?${Object.keys(params).map(key => key + '=' + params[key]).join('&')}` : `${deseasesURL}/${url}`;
 			// Send the request
 			const response = await request(fullURL);
 			return (response);
