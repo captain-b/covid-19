@@ -78,7 +78,8 @@ function App() {
     </div>
     <Card className="app__right">
       <CardContent>
-        {/* Table */}
+        <h3>Live Cases by Country</h3>
+        <Table countries={countries} />
         {/* Graph */}
       </CardContent>
     </Card>
