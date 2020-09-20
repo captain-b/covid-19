@@ -84,7 +84,7 @@ const chartData = (data, cases='cases') => {
 	return chartData;
 }
 
-function LineGraph({cases='cases'}) {
+function LineGraph({cases='cases', ...props}) {
 	const [data, setData] = useState({});
 	const [borderColor, setBorderColor] = useState('cases');
 	const [backgroundColor, setBackgroundColor] = useState('cases');
@@ -105,7 +105,7 @@ function LineGraph({cases='cases'}) {
 	}, [cases]);
 
 	return (
-		<div className="line_graph">
+		<div className={props.className}>
 				{data?.length > 0 && (
 					<Line options={options} data={{
 						datasets: [{
