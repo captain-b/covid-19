@@ -3,20 +3,24 @@ import {MenuItem, Select, FormControl, Card, CardContent} from '@material-ui/cor
 import './App.css';
 import InfoBox from './InfoBox';
 import Maps from './Maps';
+import Table from './Table';
 
 function App() {
 
-  const [countries, setCountries] = useState([{country: "Country"}]);
+  const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('worldwide');
   const [selectedCountryData, setSelectedCountryData] = useState({});
 
-  useEffect(async () => {
-    try {
-      const info = await (await fetch('/get_countries/worldwide')).json();
-      setSelectedCountryData(info); // Set and display the selected country
-    } catch (error) {
-      handleError(error);
+  useEffect(() => {
+    async function loadCountries() {
+      try {
+        const info = await (await fetch('/get_countries/worldwide')).json();
+        setSelectedCountryData(info); // Set and display the selected country
+      } catch (error) {
+        handleError(error);
+      }
     }
+    loadCountries();
   },[]);
 
   function handleError(error) { // TODO: Rework this logic.
