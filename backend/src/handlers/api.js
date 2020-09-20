@@ -77,9 +77,8 @@ export const CountryData = async function (req, res) {
 
 export const HistoricData = async function (req, res) {
 	try {
-		const historicInfo = await Request.get(`historical/${req.params.country}`, {lastdays: 30});
-
-		res.send(historicInfo.timeline);
+		const historicInfo = await Request.get(`historical/${req.params.country}`, {lastdays: 120});
+		res.send(historicInfo.timeline ? historicInfo.timeline : historicInfo);
 	} catch (error) {  // TODO: Add more error handling
 		res.status(410).send({description: apiCallFailedMessage});
 	}
