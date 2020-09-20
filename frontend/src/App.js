@@ -4,6 +4,7 @@ import './App.css';
 import InfoBox from './InfoBox';
 import Maps from './Maps';
 import Table from './Table';
+import {sortData} from './util'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
     const getCountrylist = async () => {
       try {
         const countryList = await (await fetch('/get_countries')).json();
+        sortData(countryList);
         setCountries(countryList); // Set our countries object to our country list array.
       } catch (error) {
         handleError(error);
