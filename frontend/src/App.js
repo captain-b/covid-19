@@ -5,6 +5,7 @@ import InfoBox from './InfoBox';
 import Maps from './Maps';
 import Table from './Table';
 import {sortData} from './util'
+import LineGraph from './LineGraph';
 
 function App() {
 
@@ -86,6 +87,7 @@ function App() {
       <CardContent>
         <h3>Live Cases Today</h3>
         <Table countries={countries} />
+        <LineGraph />
         {/* Graph */}
       </CardContent>
     </Card>
