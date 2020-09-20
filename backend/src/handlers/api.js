@@ -18,14 +18,10 @@ export const CountryList = async function (req, res) {
 					country,
 					flag,
 					iso3,
-					cases: {
-						today: todayCases,
-						total: cases
-					},
-					deaths: {
-						today: todayDeaths,
-						total: deaths
-					},
+					casesToday: todayCases,
+					totalCases: cases,
+					deathsToday: todayDeaths,
+					totalDeaths: deaths,
 					recovered: {
 						today: todayRecovered,
 						total: recovered
