@@ -4,22 +4,22 @@ import numeral from 'numeral';
 
 const casesTypeColors = {
   cases: {
-    hex: "#CC1034",
-    rgb: "rgb(204, 16, 52)",
-    half_op: "rgba(204, 16, 52, 0.5)",
-    multiplier: 500,
+    hex: "#673ab7",
+    rgb: "rgb(103, 58, 183)",
+    half_op: "rgba(30, 59, 218, 0.5)",
+    multiplier: 700,
   },
   recovered: {
     hex: "#7dd71d",
     rgb: "rgb(125, 215, 29)",
     half_op: "rgba(125, 215, 29, 0.5)",
-    multiplier: 1200,
+    multiplier: 500,
   },
   deaths: {
     hex: "#fb4443",
     rgb: "rgb(251, 68, 67)",
     half_op: "rgba(251, 68, 67, 0.5)",
-    multiplier: 2000,
+    multiplier: 300,
   },
 };
 
@@ -27,13 +27,13 @@ export const sortData = (data) => {
 	return data.sort((a, b) => (a.cases.today > b.cases.today ? -1 : 1));
 }
 
-export const showDataOnMap = (data) =>
+export const showDataOnMap = (data, caseType) =>
 	data.map(country => (
 		<Circle center={[country.location.lat, country.location.long]}
-		color={casesTypeColors.cases.hex}
+		color={casesTypeColors[caseType].hex}
 		fillOpacity={0.4}
-		fillColor={casesTypeColors.cases.hex}
-		radius={Math.sqrt(country.cases.total) * casesTypeColors.cases.multiplier}
+		fillColor={casesTypeColors[caseType].hex}
+		radius={Math.sqrt(country.cases.total) * casesTypeColors[caseType].multiplier}
 		>
 		<Popup>
 		<div className="info-container">
