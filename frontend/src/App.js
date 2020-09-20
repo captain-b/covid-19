@@ -6,6 +6,7 @@ import Map from './Map.js';
 import Table from './Table';
 import {sortData} from './util'
 import LineGraph from './LineGraph';
+import {sortData} from './util';
 
 function App() {
 
