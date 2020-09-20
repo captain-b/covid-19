@@ -13,6 +13,9 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('worldwide');
   const [selectedCountryData, setSelectedCountryData] = useState({});
+  const [mapCenter, setMapCenter] = useState({lat: 54.5260, lng: 15.2551});
+  const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries]= useState([]);
 
   useEffect(() => {
     async function loadCountries() {
@@ -37,6 +40,7 @@ function App() {
         const countryList = await (await fetch('/get_countries')).json();
         sortData(countryList);
         setCountries(countryList); // Set our countries object to our country list array.
+        setMapCountries(countryList);
       } catch (error) {
         handleError(error);
       }
@@ -53,6 +57,9 @@ function App() {
     try {
       const info = await (await fetch(endpoint)).json();
       setSelectedCountryData(info); // Set and display the selected country
+
+      setMapCenter([info.location.lat, info.location.long]);
+      setMapZoom(5);
     } catch (error) {
       handleError(error);
     }
@@ -81,7 +88,7 @@ function App() {
         <InfoBox title="Deaths:" cases={selectedCountryData.deathsToday} totalCases={selectedCountryData.deaths} />
       </div>
 
-      <Map center={mapCenter} zoom={mapZoom} />
+      <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
 
     </div>
     <Card className="app__right">
