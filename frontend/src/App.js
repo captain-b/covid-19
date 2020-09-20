@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {MenuItem, Select, FormControl, Card, CardContent} from '@material-ui/core'
 import './App.css';
+import 'leaflet/dist/leaflet.css';
 import InfoBox from './InfoBox';
 import Map from './Map.js';
 import Table from './Table';
-import {sortData} from './util'
 import LineGraph from './LineGraph';
 import {sortData} from './util';
 
@@ -81,7 +81,7 @@ function App() {
         <InfoBox title="Deaths:" cases={selectedCountryData.deathsToday} totalCases={selectedCountryData.deaths} />
       </div>
 
-      <Maps />
+      <Map center={mapCenter} zoom={mapZoom} />
 
     </div>
     <Card className="app__right">
