@@ -18,10 +18,12 @@ function App() {
   const [mapCountries, setMapCountries]= useState([]);
   const [casesType, setCasesType] = useState('cases');
 
+  const backendURL = process.env.NODE_ENV === 'production' ? 'https://covid-tracker-captain-b.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
+
   useEffect(() => {
     async function loadCountries() {
       try {
-        const info = await (await fetch('/get_countries/worldwide')).json();
+        const info = await (await fetch(`${backendURL}/get_countries/worldwide`)).json();
         setSelectedCountryData(info); // Set and display the selected country
       } catch (error) {
         handleError(error);
@@ -38,7 +40,7 @@ function App() {
   useEffect(() =>  {
     const getCountrylist = async () => {
       try {
-        const countryList = await (await fetch('/get_countries')).json();
+        const countryList = await (await fetch(`${backendURL}/get_countries`)).json();
         sortData(countryList);
         setCountries(countryList); // Set our countries object to our country list array.
         setMapCountries(countryList);
@@ -53,7 +55,7 @@ function App() {
     const countryCode = e.target.value;
     setSelectedCountry(countryCode); // Set and display the selected country
 
-    const endpoint = countryCode === 'worldwide' ? '/get_countries/worldwide' : `/get_countries/${countryCode}`;
+    const endpoint = countryCode === 'worldwide' ? `${backendURL}/get_countries/worldwide` : `${backendURL}/get_countries/${countryCode}`;
 
     try {
       const info = await (await fetch(endpoint)).json();
