@@ -84,9 +84,9 @@ function App() {
       </div>
 
       <div className="app__stats">
-        <InfoBox onClick={e => setCasesType('cases')} title="Today's Cases:" cases={prettyPrintStat(selectedCountryData.today)} totalCases={prettyPrintStat(selectedCountryData.cases)} />
-        <InfoBox onClick={e => setCasesType('recovered')} title="Recovered Today:" cases={prettyPrintStat(selectedCountryData.recoveredToday)} totalCases={prettyPrintStat(selectedCountryData.recovered)} />
-        <InfoBox onClick={e => setCasesType('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
+        <InfoBox isPurple active={casesType === "cases"} onClick={e => setCasesType('cases')} title="Today's Cases:" cases={prettyPrintStat(selectedCountryData.today)} totalCases={prettyPrintStat(selectedCountryData.cases)} />
+        <InfoBox isGreen active={casesType === "recovered"} onClick={e => setCasesType('recovered')} title="Recovered Today:" cases={prettyPrintStat(selectedCountryData.recoveredToday)} totalCases={prettyPrintStat(selectedCountryData.recovered)} />
+        <InfoBox isRed active={casesType === "deaths"} onClick={e => setCasesType('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
       </div>
 
       <Map cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
@@ -96,8 +96,8 @@ function App() {
       <CardContent>
         <h3>Live Cases Today</h3>
         <Table countries={countries} />
-        <h3>Worlwide new {casesType}</h3>
-        <LineGraph cases={casesType} />
+        <h3 className="app__graphTitle">Worlwide new {casesType}</h3>
+        <LineGraph className="app__graph" cases={casesType} />
         {/* Graph */}
       </CardContent>
     </Card>

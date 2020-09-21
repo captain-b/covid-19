@@ -6,6 +6,10 @@ body {
 	background-color: #f5f6fa;
 }
 
+.app__dropdown {
+	background-color: white;
+}
+
 .app__header {
   display: flex;
   justify-content: space-between;
@@ -17,9 +21,28 @@ body {
 	flex: 0.9;
 }
 
+.app__right {
+	display: flex;
+	flex-direction: column;
+}
+
+.app__right .MuiCardContent-root {
+	flex-direction: column;
+	display: flex;
+	flex-grow: 1;
+}
+
+.app__graphTitle {
+	margin-top: 20px;
+}
+
 .app__stats {
 	display: flex;
 	justify-content: space-between;
+}
+
+.app__graph {
+	flex-grow: 1;
 }
 
 .app {
