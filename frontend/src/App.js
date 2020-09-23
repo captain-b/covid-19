@@ -35,13 +35,13 @@ function App() {
 
   const casesTypeColors = {
     cases: {
-      custom_op: "rgba(30, 59, 218, 0.5)"
+      custom_op: "rgba(66, 36, 119, 1)"
     },
     recovered: {
-      custom_op: "rgba(36, 157, 68, 0.5)"
+      custom_op: "rgba(9, 109, 35, 0.75)"
     },
     deaths: {
-      custom_op: "rgba(185, 23, 23, 0.5)"
+      custom_op: "rgba(119, 1, 0, 1)"
     },
   };
 
@@ -113,7 +113,7 @@ function App() {
       <div className="app__header">
         <div className="app__header__title">
           <img src={Logo} />
-          <h1>Covid-19 Live Stats</h1>
+          <h1 style={{color: 'white'}}>Covid-19 Live Stats</h1>
         </div>
         {/* Create a dropdown box to display country names and codes*/}
         <FormControl style={{backgroundColor: backgroundColor}} className="app__dropdown">
