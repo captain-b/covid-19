@@ -7,18 +7,21 @@ const casesTypeColors = {
     hex: "#673ab7",
     rgb: "rgb(103, 58, 183)",
     half_op: "rgba(30, 59, 218, 0.5)",
+    custom_op: "rgba(30, 59, 218, 0.1)",
     multiplier: 700,
   },
   recovered: {
     hex: "#7dd71d",
     rgb: "rgb(125, 215, 29)",
     half_op: "rgba(125, 215, 29, 0.5)",
+    custom_op: "rgba(125, 215, 29, 0.1)",
     multiplier: 500,
   },
   deaths: {
     hex: "#fb4443",
     rgb: "rgb(251, 68, 67)",
     half_op: "rgba(251, 68, 67, 0.5)",
+    custom_op: "rgba(251, 68, 67, 0.1)",
     multiplier: 300,
   },
 };
@@ -27,8 +30,8 @@ export const sortData = (data) => {
 	return data.sort((a, b) => (a.cases.today > b.cases.today ? -1 : 1));
 }
 
-export const showDataOnMap = (data, caseType) =>
-	data.map(country => (
+export const showDataOnMap = (data, caseType) => {
+	return data.map(country => (
 		<Circle center={[country.location.lat, country.location.long]}
 		color={casesTypeColors[caseType].hex}
 		fillOpacity={0.4}
@@ -46,6 +49,7 @@ export const showDataOnMap = (data, caseType) =>
 		</Popup>
 		</Circle>
 	));
+}
 
 export const prettyPrintStat = (stat) =>
 	stat ? `+${numeral(stat).format('0.0a')}` : '+0'
