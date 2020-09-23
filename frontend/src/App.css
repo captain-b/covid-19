@@ -17,6 +17,11 @@ body {
   margin-bottom: 20px;
 }
 
+.app__header__title {
+	align-items: center;
+	display: inline-flex;
+}
+
 .app__left {
 	flex: 0.9;
 }
