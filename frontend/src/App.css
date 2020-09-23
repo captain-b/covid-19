@@ -59,4 +59,12 @@ body {
 	.app {
 		flex-direction: column;
 	}
+
+	.app__header {
+	  flex-direction: column;
+	}
+
+	.app__dropdown {
+		width: 97%;
+	}
 }
