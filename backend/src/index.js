@@ -1,5 +1,5 @@
-import RegisterRoutes from './src/routes/api';
-import RegisterPublicRoutes from './src/routes/public'
+import RegisterRoutes from './routes/api';
+import RegisterPublicRoutes from './routes/public'
 
 const port = process.env.PORT || 5000;
 
