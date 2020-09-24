@@ -2,22 +2,28 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "server": "ts-node-dev --respawn index.js",
-    "client": "npm start --prefix ../frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "npm run serve",
+    "server": "ts-node-dev --respawn src/index.js",
+    "client": "cd ../frontend/ && bash start_frontend.sh",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build-ts": "tsc",
+    "postinstall": "npm run build-ts",
+    "serve": "node dist/index.js",
+    "watch-node": "nodemon dist/index.js",
+    "watch-ts": "tsc -w"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^5.3.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ts-node": "^9.0.0"
   },
   "engines": {
-    "node": ">=4.3"
+    "node": ">=12.13.0"
   },
   "devDependencies": {
     "ts-node-dev": "^1.0.0-pre.44",

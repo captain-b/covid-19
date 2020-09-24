@@ -3,9 +3,9 @@ import './Map.css';
 import {Map as LeafletMap, TileLayer} from 'react-leaflet';
 import {showDataOnMap} from './util';
 
-function Map({countries, cases, center, zoom}) {
+function Map({backgroundColor, countries, cases, center, zoom}) {
 	return (
-		<div className="map">
+		<div style={{backgroundColor: backgroundColor}} className="map">
 			<LeafletMap center={center} zoom={zoom}>
 				<TileLayer
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

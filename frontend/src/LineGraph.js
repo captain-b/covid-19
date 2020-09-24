@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Line} from 'react-chartjs-2';
 import numeral from 'numeral';
 
+const backendURL = process.env.NODE_ENV === 'production' ? 'https://covid-tracker-captain-b.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
+
 const options = {
 	legend: {
 		display: false,
@@ -92,7 +94,7 @@ function LineGraph({cases='cases', ...props}) {
 	useEffect(() => {
 		const historicalData = async () => {
 			try {
-				const historicData = await (await fetch('historic/all')).json();
+				const historicData = await (await fetch(`${backendURL}/historic/all`)).json();
 				const chart = chartData(historicData, cases);
 				setData(chart);
 				setBackgroundColor(casesTypeColors[cases].half_op)

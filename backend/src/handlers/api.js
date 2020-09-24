@@ -1,6 +1,29 @@
 import Request from '../utils/request';
 const apiCallFailedMessage = 'There was an error calling the third party API.';
 
+export const VaccineTrials = async function (req, res) {
+	var vaccineInfo;
+	try {
+		vaccineInfo = await Request.get('vaccine');
+	} catch (error) {  // TODO: Add more error handling
+		res.status(410).send({description: apiCallFailedMessage});
+	}
+
+	const filteredInfo = vaccineInfo.data.map(({candidate, mechanism, sponsors, details, trialPhase, institutions}) => { // Go through the array and replace the "&rsquo;" characters with "'" globally
+		return {
+			candidate: candidate.replace(/&rsquo;/gi, "'") || 'Not reported.',
+			mechanism: mechanism.replace(/&rsquo;/gi, "'") || 'Not reported.',
+			sponsors: sponsors.length > 0 ? sponsors : [],
+			details: details.replace(/&rsquo;/gi, "'") || 'No details provided.',
+			trialPhase: trialPhase.replace(/&rsquo;/gi, "'") || 'Not reported.',
+			institutions: institutions.length > 0 ? institutions : []
+		};
+	});
+
+
+	res.send(filteredInfo);
+};
+
 export const CountryList = async function (req, res) {
 	var filteredCountrtData = [];
 

@@ -17,6 +17,11 @@ body {
   margin-bottom: 20px;
 }
 
+.app__header__title {
+	align-items: center;
+	display: inline-flex;
+}
+
 .app__left {
 	flex: 0.9;
 }
@@ -53,5 +58,17 @@ body {
 @media (max-width: 990px) {
 	.app {
 		flex-direction: column;
+	}
+
+	.app__header {
+	  flex-direction: column;
+	}
+
+	.app__dropdown {
+		width: 97%;
+	}
+
+	.app__right {
+		margin-top: 10px;
 	}
 }
