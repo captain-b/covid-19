@@ -67,4 +67,8 @@ body {
 	.app__dropdown {
 		width: 97%;
 	}
+
+	.app__right {
+		margin-top: 10px;
+	}
 }
