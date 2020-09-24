@@ -2,3 +2,4 @@
 
 start.sh
 start_frontend.sh
+firebase_deploy.sh
