@@ -7,6 +7,7 @@ import InfoBox from './InfoBox';
 import Map from './Map.js';
 import Table from './Table';
 import LineGraph from './LineGraph';
+import DescriptionTable from './DescriptionTable';
 import {sortData, prettyPrintStat} from './util';
 
 function App() {
@@ -148,7 +149,11 @@ function App() {
 
       <Map backgroundColor={backgroundColor} cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
 
-
+      {
+        vaccineDetails.map(study => (
+          <DescriptionTable backgroundColor={backgroundColor} study={study}></DescriptionTable>
+         ))
+      }
 
     </div>
     <Card style={{backgroundColor: backgroundColor}} className="app__right">
