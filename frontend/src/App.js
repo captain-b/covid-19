@@ -59,6 +59,20 @@ function App() {
     loadCountries();
   },[]);
 
+  useEffect(() => {
+    async function loadVaccineTrials() {
+      try {
+        console.log(`${backendURL}/trials/vaccine_trials`);
+        const trials = await (await fetch(`${backendURL}/trials/vaccines`)).json();
+        // setSelectedCountryData(info); // Set and display the selected country
+        console.log(trials);
+      } catch (error) {
+        handleError(error);
+      }
+    }
+    loadVaccineTrials();
+  },[]);
+
   function handleError(error) { // TODO: Rework this logic.
     alert('There was a problem fetching some data. please try again later.');
     console.log("there was an error", error);
@@ -71,6 +85,7 @@ function App() {
         setCountries(countryList); // Set our countries object to our country list array.
         setMapCountries(countryList);
         setSortedCountries(sortData([...countryList]));
+        console.log(countryList);
         document.body.style = `background: ${casesTypeColors.cases.custom_op}; -webkit-transition: background 1000ms linear; -ms-transition: background 1000ms linear; transition: background 1000ms linear;`; // Set body background coloe
       } catch (error) {
         handleError(error);

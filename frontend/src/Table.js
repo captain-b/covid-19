@@ -6,9 +6,9 @@ function Table({countries}) {
 	return (
 		<div className="table">
 			{
-				countries.map(({country, cases}) => (
+				countries.map(({country, cases, flag}) => (
 					<tr>
-						<td>{country}</td>
+						<td><img className="flag-img" src={flag} alt="Country Flag"/><div className="flag-name">{country}</div></td>
 						<td><strong>{numeral(cases.today).format('0,0')}</strong></td>
 					</tr>
 				))
