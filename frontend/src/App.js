@@ -32,6 +32,7 @@ function App() {
   const [mapCountries, setMapCountries]= useState([]);
   const [casesType, setCasesType] = useState('cases');
   const [backgroundColor, setBackgroundColor] = useState(backgroundTypeColors.cases.custom_op);
+  const [vaccineDetails, setVaccineDetails] = useState([]);
 
   const casesTypeColors = {
     cases: {
@@ -62,9 +63,8 @@ function App() {
   useEffect(() => {
     async function loadVaccineTrials() {
       try {
-        console.log(`${backendURL}/trials/vaccine_trials`);
         const trials = await (await fetch(`${backendURL}/trials/vaccines`)).json();
-        // setSelectedCountryData(info); // Set and display the selected country
+        setVaccineDetails(trials);
         console.log(trials);
       } catch (error) {
         handleError(error);
@@ -85,7 +85,6 @@ function App() {
         setCountries(countryList); // Set our countries object to our country list array.
         setMapCountries(countryList);
         setSortedCountries(sortData([...countryList]));
-        console.log(countryList);
         document.body.style = `background: ${casesTypeColors.cases.custom_op}; -webkit-transition: background 1000ms linear; -ms-transition: background 1000ms linear; transition: background 1000ms linear;`; // Set body background coloe
       } catch (error) {
         handleError(error);
@@ -135,7 +134,7 @@ function App() {
           <Select variant="outlined" value={selectedCountry} onChange={countryChange}>
           <MenuItem value="worldwide">World Wide</MenuItem>
           {
-            countries.map(country => (<MenuItem value={country.iso3}>{country.country} ({country.iso3})</MenuItem>))
+            countries.map(country => (<MenuItem value={country.iso3}><img className="flag-img" src={country.flag} alt="Country Flag" style={{marginRight: '10px'}}/>{country.country}</MenuItem>))
           }
           </Select>
         </FormControl>
@@ -148,6 +147,8 @@ function App() {
       </div>
 
       <Map backgroundColor={backgroundColor} cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+
+
 
     </div>
     <Card style={{backgroundColor: backgroundColor}} className="app__right">
