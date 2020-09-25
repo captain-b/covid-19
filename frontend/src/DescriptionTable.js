@@ -10,7 +10,7 @@ function DescriptionTable({backgroundColor, study, isSelected, ...props}) {
 			<div className="description__header" onClick={props.onClick}>
 				<div className="description__header__titles">
 					<h3>{study.mechanism}</h3>
-					<img className={`description__header__titles__toggle_button${isSelected ? '__selected' : ''}`} src="https://img.icons8.com/fluent-systems-regular/96/000000/low-importance.png"/>
+					<img style={{width: '25px', height: '25px'}} className={`description__header__titles__toggle_button${isSelected ? '__selected' : ''}`} src="https://img.icons8.com/fluent-systems-regular/96/000000/low-importance.png"/>
 				</div>
 				<div className="separator__line"></div>
 				<div className="description__header__titles_descriptions">
@@ -25,8 +25,10 @@ function DescriptionTable({backgroundColor, study, isSelected, ...props}) {
 				</div>
 			</div>
 			<div className={isSelected ? 'description__details__box__selected' : 'description__details__box'}>
-				<div className="description__details_title">Details:</div>
-				<div className="description__details">{study.details.replace('Background: ', '')}</div>
+				<div className="description__details__box__data">
+					<div className="description__details_title">Details:</div>
+					<div className="description__details">{study.details.replace('Background: ', '')}</div>
+				</div>
 			</div>
 		</div>
 	)
