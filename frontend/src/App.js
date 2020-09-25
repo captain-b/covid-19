@@ -66,8 +66,8 @@ function App() {
     async function loadVaccineTrials() {
       try {
         const trials = await (await fetch(`${backendURL}/trials/vaccines`)).json();
-        setVaccineDetails(trials);
-        console.log(trials);
+        const test = trials.map(trial => ({trial, selected: false}));
+        setVaccineDetails(test);
       } catch (error) {
         handleError(error);
       }
@@ -123,6 +123,22 @@ function App() {
       setBackgroundColor(backgroundTypeColors.recovered.custom_op);
   }
 
+  function selectVaccineTable(i) {
+
+    var details = [...vaccineDetails];
+
+    if (details[i].selected) {
+      details[i].selected = false;
+    } else {
+      details[i].selected = true;
+    }
+
+    setVaccineDetails(details);
+
+    setBackgroundColor(backgroundColor);
+    // changeParams('deaths')
+  }
+
   return (
     <div className="app">
     <div className="app__left">
@@ -151,10 +167,10 @@ function App() {
       <Map backgroundColor={backgroundColor} cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
 
       <YouTubeTable backgroundColor={backgroundColor} src="https://www.youtube.com/embed?v=BtN-goy9VOY&ab_channel=Kurzgesagt%E2%80%93InaNutshell" />
-      
+
       {
-        vaccineDetails.map(study => (
-          <DescriptionTable backgroundColor={backgroundColor} study={study}></DescriptionTable>
+        vaccineDetails.map((study, i) => (
+          <DescriptionTable onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
          ))
       }
 
