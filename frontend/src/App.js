@@ -150,7 +150,7 @@ function App() {
         {/* Create a dropdown box to display country names and codes*/}
         <FormControl style={{backgroundColor: backgroundColor}} className="app__dropdown">
           <Select variant="outlined" value={selectedCountry} onChange={countryChange}>
-          <MenuItem value="worldwide">World Wide</MenuItem>
+          <MenuItem value="worldwide"><img className="flag-img" src="https://vignette.wikia.nocookie.net/oratia/images/6/63/Global_union_flag.png/revision/latest/top-crop/width/360/height/450?cb=20151225033917" alt="Country Flag" style={{marginRight: '10px', width: '15px', height: '15px'}}/>World Wide</MenuItem>
           {
             countries.map(country => (<MenuItem value={country.iso3}><img className="flag-img" src={country.flag} alt="Country Flag" style={{marginRight: '10px'}}/>{country.country}</MenuItem>))
           }
