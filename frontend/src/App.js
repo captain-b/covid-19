@@ -8,6 +8,7 @@ import Map from './Map.js';
 import Table from './Table';
 import LineGraph from './LineGraph';
 import DescriptionTable from './DescriptionTable';
+import YouTubeTable from './YouTubeTable';
 import {sortData, prettyPrintStat} from './util';
 
 function App() {
@@ -149,6 +150,8 @@ function App() {
 
       <Map backgroundColor={backgroundColor} cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
 
+      <YouTubeTable backgroundColor={backgroundColor} src="https://www.youtube.com/embed?v=BtN-goy9VOY&ab_channel=Kurzgesagt%E2%80%93InaNutshell" />
+      
       {
         vaccineDetails.map(study => (
           <DescriptionTable backgroundColor={backgroundColor} study={study}></DescriptionTable>
