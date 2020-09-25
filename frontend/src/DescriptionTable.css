@@ -6,3 +6,129 @@
 	margin-top: 16px;
 	box-shadow: 0 0 8px -4px rgba(0,0,0,0.5);
 }
+
+.description__details__box {
+	display: none;
+	background-color: white;
+	padding: 1rem;
+	border-radius: 8px;
+	margin-top: 16px;
+	box-shadow: 0 0 8px -4px rgba(0,0,0,0.5);
+}
+
+ .separator__line {
+ 	margin-top: 5px;
+ 	margin-bottom: 5px;
+	width: 65%;
+	/*height: 47px;*/
+	border-bottom: 1px solid black;
+	position: absolute;
+}
+
+.description__details__box__selected {
+	display: block;
+	background-color: white;
+	padding: 1rem;
+	border-radius: 8px;
+	margin-top: 16px;
+	box-shadow: 0 0 8px -4px rgba(0,0,0,0.5);
+}
+
+.description__header__titles_descriptions {
+	margin-top: 10px;
+	margin-right: 20px;
+	display: flex;
+}
+
+.description__details_title {
+	margin-top: 10px;
+	font-family: Arial, sans-serif;
+	font-weight: 600;
+}
+
+.description__details {
+	margin-top: 10px;
+	font-family: Arial, sans-serif;
+	font-weight: 200;
+}
+
+.description__header {
+	cursor: pointer;
+}
+
+.description__header__titles_description1 {
+	width: 50%
+}
+
+.description__header__titles_description2 {
+	width: 50%
+}
+
+.description__header__titles_description1__candidates {
+	color: grey;
+	font-weight: 700 !important;
+	font-size: 0.8rem !important;
+}
+
+.description__header__titles_description1__phase {
+	color: grey;
+	font-weight: 700 !important;
+	font-size: 0.8rem !important;
+}
+
+.description__header__titles_description2__sponsors {
+	color: grey;
+	font-weight: 700 !important;
+	font-size: 0.8rem !important;
+}
+
+.description__header__titles_description2__institutions {
+	color: grey;
+	font-weight: 700 !important;
+	font-size: 0.8rem !important;
+}
+
+
+.description__header__titles {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.description__header__titles__toggle_button {
+	width: 25px;
+	height: 25px;
+}
+
+.description__header__titles__toggle_button__selected {
+	width: 25px;
+	height: 25px;
+	-webkit-transition: background 1000ms linear;
+	-ms-transition: background 1000ms linear;
+	transition: background 1000ms linear;
+	transform: scaleY(-1);
+}
+
+.description__header__titles__sponsors {
+	color: grey;
+	font-weight: 700 !important;
+	font-size: 0.8rem !important;
+}
+
+.description__header__titles__institutions {
+	color: grey;
+	font-weight: 700 !important;
+	font-size: 0.8rem !important;
+}
+
+@media (max-width: 1370px) {
+	.separator__line {
+		width: 50%;
+	}
+}
+
+@media (max-width: 990px) {
+	.separator__line {
+		width: 90%;
+	}
+}
