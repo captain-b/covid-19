@@ -168,11 +168,14 @@ function App() {
 
       <YouTubeTable backgroundColor={backgroundColor} src="https://www.youtube.com/embed?v=BtN-goy9VOY&ab_channel=Kurzgesagt%E2%80%93InaNutshell" />
 
-      {
-        vaccineDetails.map((study, i) => (
-          <DescriptionTable onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
-         ))
-      }
+      <div className="vaccine__box" style={{backgroundColor: backgroundColor}}>
+        <h1>Vaccine Trials:</h1>
+        {
+          vaccineDetails.map((study, i) => (
+            <DescriptionTable i={i} onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
+           ))
+        }
+      </div>
 
     </div>
     <Card style={{backgroundColor: backgroundColor}} className="app__right">
