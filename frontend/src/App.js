@@ -172,7 +172,7 @@ function App() {
         <h1>Vaccine Trials:</h1>
         {
           vaccineDetails.map((study, i) => (
-            <DescriptionTable onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
+            <DescriptionTable i={i} onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
            ))
         }
       </div>
