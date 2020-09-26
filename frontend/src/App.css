@@ -26,6 +26,20 @@ body {
 	box-shadow: 0 0 8px -4px rgba(0,0,0,0.5);
 }
 
+.vaccine__box__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.vaccine__box__header__showall {
+	padding: 1rem;
+	border-radius: 8px;
+	margin-top: 16px;
+	box-shadow: 0 0 8px -4px rgba(0,0,0,0.5);
+	cursor: pointer;
+}
+
 .app__header__title {
 	align-items: center;
 	display: inline-flex;
