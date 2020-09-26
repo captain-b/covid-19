@@ -29,6 +29,18 @@ function App() {
     },
   };
 
+  const casesTypeColors = {
+    cases: {
+      custom_op: "rgba(66, 36, 119, 1)"
+    },
+    recovered: {
+      custom_op: "rgba(9, 109, 35, 0.75)"
+    },
+    deaths: {
+      custom_op: "rgba(119, 1, 0, 1)"
+    },
+  };
+
   const [countries, setCountries] = useState([]);
   const [soretdCountries, setSortedCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('worldwide');
@@ -44,18 +56,6 @@ function App() {
   const [showAll, setShowAll] = useState(true);
   const [loading, setLoading] = useState(true);
   const [showAllCountriesOnMap , setShowAllCountriesOnMap] = useState(true);
-
-  const casesTypeColors = {
-    cases: {
-      custom_op: "rgba(66, 36, 119, 1)"
-    },
-    recovered: {
-      custom_op: "rgba(9, 109, 35, 0.75)"
-    },
-    deaths: {
-      custom_op: "rgba(119, 1, 0, 1)"
-    },
-  };
 
   const backendURL = process.env.NODE_ENV === 'production' ? 'https://covid-tracker-captain-b.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
@@ -130,6 +130,9 @@ function App() {
     } catch (error) {
       handleError(error);
     }
+
+    setShowAllCountriesOnMap(true);
+    setFilteredMapCountries(mapCountries);
   }
 
   function changeParams(clickedCase) {
@@ -178,6 +181,12 @@ function App() {
       setShowAllCountriesOnMap(true);
       setFilteredMapCountries(mapCountries);
     }
+    setMapZoom(5);
+  }
+
+  function loadOriginalCountries() {
+    setShowAllCountriesOnMap(true);
+    setFilteredMapCountries(mapCountries);
   }
 
   return (
@@ -191,9 +200,9 @@ function App() {
         {/* Create a dropdown box to display country names and codes*/}
         <FormControl style={{backgroundColor: backgroundColor}} className="app__dropdown">
           <Select variant="outlined" value={selectedCountry} onChange={countryChange}>
-          <MenuItem value="worldwide"><img className="flag-img" src="https://vignette.wikia.nocookie.net/oratia/images/6/63/Global_union_flag.png/revision/latest/top-crop/width/360/height/450?cb=20151225033917" alt="Country Flag" style={{marginRight: '10px', width: '15px', height: '15px'}}/>World Wide</MenuItem>
+          <MenuItem onClick={loadOriginalCountries} value="worldwide"><img className="flag-img" src="https://vignette.wikia.nocookie.net/oratia/images/6/63/Global_union_flag.png/revision/latest/top-crop/width/360/height/450?cb=20151225033917" alt="Country Flag" style={{marginRight: '10px', width: '15px', height: '15px'}}/>World Wide</MenuItem>
           {
-            countries.map(country => (<MenuItem value={country.iso3}><img className="flag-img" src={country.flag} alt="Country Flag" style={{marginRight: '10px'}}/>{country.country}</MenuItem>))
+            countries.map(country => (<MenuItem onClick={loadOriginalCountries} value={country.iso3}><img className="flag-img" src={country.flag} alt="Country Flag" style={{marginRight: '10px'}}/>{country.country}</MenuItem>))
           }
           </Select>
         </FormControl>
