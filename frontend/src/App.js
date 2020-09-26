@@ -36,12 +36,14 @@ function App() {
   const [mapCenter, setMapCenter] = useState({lat: 54.5260, lng: 15.2551});
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries]= useState([]);
+  const [filteredMapCountries, setFilteredMapCountries]= useState([]);
   const [casesType, setCasesType] = useState('cases');
   const [backgroundColor, setBackgroundColor] = useState(backgroundTypeColors.cases.custom_op);
   const [vaccineDetails, setVaccineDetails] = useState([]);
   const [originalVaccineDetails, setOriginalVaccineDetails] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [showAllCountriesOnMap , setShowAllCountriesOnMap] = useState(true);
 
   const casesTypeColors = {
     cases: {
@@ -99,7 +101,8 @@ function App() {
         const countryList = await (await fetch(`${backendURL}/get_countries`)).json();
         setLoading(false);
         setCountries(countryList); // Set our countries object to our country list array.
-        setMapCountries(countryList);
+        setMapCountries(sortData([...countryList]));
+        setFilteredMapCountries(sortData([...countryList]));
         setSortedCountries(sortData([...countryList]));
         document.body.style = `background: ${casesTypeColors.cases.custom_op}; -webkit-transition: background 1000ms linear; -ms-transition: background 1000ms linear; transition: background 1000ms linear;`; // Set body background coloe
       } catch (error) {
@@ -167,6 +170,16 @@ function App() {
     }
   }
 
+  function showAllCountries() {
+    if (showAllCountriesOnMap) {
+      setShowAllCountriesOnMap(false);
+      setFilteredMapCountries(mapCountries.slice(0, 10));
+    } else {
+      setShowAllCountriesOnMap(true);
+      setFilteredMapCountries(mapCountries);
+    }
+  }
+
   return (
     <div className="app">
     <div className="app__left">
@@ -192,7 +205,7 @@ function App() {
         <InfoBox isLoading={loading} isRed backgroundColor={backgroundColor} active={casesType === "deaths"} onClick={e => changeParams('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
       </div>
 
-      <Map backgroundColor={backgroundColor} cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+      <Map showAllOnClick={showAllCountries} showAll={showAllCountriesOnMap} backgroundColor={backgroundColor} cases={casesType} countries={filteredMapCountries} center={mapCenter} zoom={mapZoom} />
 
       <YouTubeTable backgroundColor={backgroundColor} src="https://www.youtube.com/embed?v=BtN-goy9VOY&ab_channel=Kurzgesagt%E2%80%93InaNutshell" />
 
@@ -200,9 +213,9 @@ function App() {
         <div className="vaccine__box__header">
           <h1>Vaccine Trials:</h1>
           {vaccineDetails.length <= 3 ? (
-            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer'}} className="vaccine__box__header__showall">Show all {originalVaccineDetails.length} studies</div>
+            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer', textAlign: 'center'}} className="vaccine__box__header__showall">Show all {originalVaccineDetails.length} studies</div>
            ) : (
-            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer'}} className="vaccine__box__header__showall">Show first 3 studies</div>
+            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer', textAlign: 'center'}} className="vaccine__box__header__showall">Show first 3 studies</div>
            )}
         </div>
         {
