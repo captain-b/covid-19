@@ -98,12 +98,13 @@ function App() {
     const getCountrylist = async () => {
       setLoading(true);
       try {
-        const countryList = await (await fetch(`${backendURL}/get_countries`)).json();
+        var countryList = await (await fetch(`${backendURL}/get_countries`)).json();
         setLoading(false);
         setCountries(countryList); // Set our countries object to our country list array.
-        setMapCountries(sortData([...countryList]));
-        setFilteredMapCountries(sortData([...countryList]));
-        setSortedCountries(sortData([...countryList]));
+        countryList = sortData([...countryList]);
+        setMapCountries(countryList);
+        setFilteredMapCountries(countryList);
+        setSortedCountries(countryList);
         document.body.style = `background: ${casesTypeColors.cases.custom_op}; -webkit-transition: background 1000ms linear; -ms-transition: background 1000ms linear; transition: background 1000ms linear;`; // Set body background coloe
       } catch (error) {
         handleError(error);
@@ -158,7 +159,6 @@ function App() {
   }
 
   function showAllVaccineTrials() {
-    console.log(showAll);
     if (showAll === true) {
       setShowAll(false);
       setVaccineDetails(originalVaccineDetails);
