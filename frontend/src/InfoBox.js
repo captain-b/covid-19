@@ -6,7 +6,6 @@ import {
 import './InfoBox.css';
 
 function InfoBox({isLoading, backgroundColor, title, cases, totalCases, isPurple, isRed, isGreen, active, ...props}) {
-	console.log(isLoading);
 	return (
 		<Card style={{backgroundColor: backgroundColor}} onClick={props.onClick} className={`infoBox ${active && 'infoBox--selected'} ${isRed && 'infoBox--red'} ${isPurple && 'infoBox--purple'}`}>
 			<CardContent>
