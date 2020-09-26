@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {MenuItem, Select, FormControl, Card, CardContent} from '@material-ui/core'
+import {
+  CircularProgress, MenuItem,
+  Select, FormControl, 
+  Card, CardContent
+} from '@material-ui/core';
 import './App.css';
 import 'leaflet/dist/leaflet.css';
 import Logo from './icons8-coronavirus-50.png';
@@ -35,6 +39,9 @@ function App() {
   const [casesType, setCasesType] = useState('cases');
   const [backgroundColor, setBackgroundColor] = useState(backgroundTypeColors.cases.custom_op);
   const [vaccineDetails, setVaccineDetails] = useState([]);
+  const [originalVaccineDetails, setOriginalVaccineDetails] = useState([]);
+  const [showAll, setShowAll] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const casesTypeColors = {
     cases: {
@@ -52,8 +59,10 @@ function App() {
 
   useEffect(() => {
     async function loadCountries() {
+      setLoading(true);
       try {
         const info = await (await fetch(`${backendURL}/get_countries/worldwide`)).json();
+        setLoading(false);
         setSelectedCountryData(info); // Set and display the selected country
       } catch (error) {
         handleError(error);
@@ -64,10 +73,13 @@ function App() {
 
   useEffect(() => {
     async function loadVaccineTrials() {
+      setLoading(true);
       try {
         const trials = await (await fetch(`${backendURL}/trials/vaccines`)).json();
-        const test = trials.map(trial => ({trial, selected: false}));
-        setVaccineDetails(test);
+        setLoading(false);
+        const filteredTrials = trials.map(trial => ({trial, selected: false}));
+        setOriginalVaccineDetails(filteredTrials);
+        setVaccineDetails(filteredTrials.slice(0, 3));
       } catch (error) {
         handleError(error);
       }
@@ -82,8 +94,10 @@ function App() {
 
   useEffect(() =>  {
     const getCountrylist = async () => {
+      setLoading(true);
       try {
         const countryList = await (await fetch(`${backendURL}/get_countries`)).json();
+        setLoading(false);
         setCountries(countryList); // Set our countries object to our country list array.
         setMapCountries(countryList);
         setSortedCountries(sortData([...countryList]));
@@ -96,6 +110,7 @@ function App() {
   }, []);
 
   const countryChange = async (e) => {
+    setLoading(true);
     const countryCode = e.target.value;
     setSelectedCountry(countryCode); // Set and display the selected country
 
@@ -103,6 +118,7 @@ function App() {
 
     try {
       const info = await (await fetch(endpoint)).json();
+      setLoading(false);
       setSelectedCountryData(info); // Set and display the selected country
 
       setMapCenter([info.location.lat, info.location.long]);
@@ -136,7 +152,19 @@ function App() {
     setVaccineDetails(details);
 
     setBackgroundColor(backgroundColor);
-    // changeParams('deaths')
+  }
+
+  function showAllVaccineTrials() {
+    console.log(showAll);
+    if (showAll === true) {
+      setShowAll(false);
+      setVaccineDetails(originalVaccineDetails);
+    } else {
+      setShowAll(true);
+      const original = [...originalVaccineDetails];
+      const filtered = original.slice(0, 3);
+      setVaccineDetails(filtered);
+    }
   }
 
   return (
@@ -150,7 +178,7 @@ function App() {
         {/* Create a dropdown box to display country names and codes*/}
         <FormControl style={{backgroundColor: backgroundColor}} className="app__dropdown">
           <Select variant="outlined" value={selectedCountry} onChange={countryChange}>
-          <MenuItem value="worldwide">World Wide</MenuItem>
+          <MenuItem value="worldwide"><img className="flag-img" src="https://vignette.wikia.nocookie.net/oratia/images/6/63/Global_union_flag.png/revision/latest/top-crop/width/360/height/450?cb=20151225033917" alt="Country Flag" style={{marginRight: '10px', width: '15px', height: '15px'}}/>World Wide</MenuItem>
           {
             countries.map(country => (<MenuItem value={country.iso3}><img className="flag-img" src={country.flag} alt="Country Flag" style={{marginRight: '10px'}}/>{country.country}</MenuItem>))
           }
@@ -159,9 +187,9 @@ function App() {
       </div>
 
       <div className="app__stats">
-        <InfoBox isPurple backgroundColor={backgroundColor} active={casesType === "cases"} onClick={e => changeParams('cases')} title="Today's Cases:" cases={prettyPrintStat(selectedCountryData.today)} totalCases={prettyPrintStat(selectedCountryData.cases)} />
-        <InfoBox isGreen backgroundColor={backgroundColor} active={casesType === "recovered"} onClick={e => changeParams('recovered')} title="Recovered Today:" cases={prettyPrintStat(selectedCountryData.recoveredToday)} totalCases={prettyPrintStat(selectedCountryData.recovered)} />
-        <InfoBox isRed backgroundColor={backgroundColor} active={casesType === "deaths"} onClick={e => changeParams('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
+        <InfoBox isLoading={loading} isPurple backgroundColor={backgroundColor} active={casesType === "cases"} onClick={e => changeParams('cases')} title="Today's Cases:" cases={prettyPrintStat(selectedCountryData.today)} totalCases={prettyPrintStat(selectedCountryData.cases)} />
+        <InfoBox isLoading={loading} isGreen backgroundColor={backgroundColor} active={casesType === "recovered"} onClick={e => changeParams('recovered')} title="Recovered Today:" cases={prettyPrintStat(selectedCountryData.recoveredToday)} totalCases={prettyPrintStat(selectedCountryData.recovered)} />
+        <InfoBox isLoading={loading} isRed backgroundColor={backgroundColor} active={casesType === "deaths"} onClick={e => changeParams('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
       </div>
 
       <Map backgroundColor={backgroundColor} cases={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
@@ -169,11 +197,20 @@ function App() {
       <YouTubeTable backgroundColor={backgroundColor} src="https://www.youtube.com/embed?v=BtN-goy9VOY&ab_channel=Kurzgesagt%E2%80%93InaNutshell" />
 
       <div className="vaccine__box" style={{backgroundColor: backgroundColor}}>
-        <h1>Vaccine Trials:</h1>
+        <div className="vaccine__box__header">
+          <h1>Vaccine Trials:</h1>
+          {vaccineDetails.length <= 3 ? (
+            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer'}} className="vaccine__box__header__showall">Show all {originalVaccineDetails.length} studies</div>
+           ) : (
+            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer'}} className="vaccine__box__header__showall">Show first 3 studies</div>
+           )}
+        </div>
         {
-          vaccineDetails.map((study, i) => (
-            <DescriptionTable i={i} onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
-           ))
+          loading ? (<CircularProgress />) : (
+             vaccineDetails.map((study, i) => (
+                <DescriptionTable i={i} onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
+             ))
+           )
         }
       </div>
 
@@ -181,9 +218,17 @@ function App() {
     <Card style={{backgroundColor: backgroundColor}} className="app__right">
       <CardContent>
         <h3>Live Cases Today</h3>
-        <Table countries={soretdCountries} />
+        {
+          loading ? (<CircularProgress />) : (
+            <Table countries={soretdCountries} />
+          )
+        }
         <h3 className="app__graphTitle">Worlwide new {casesType}</h3>
-        <LineGraph className="app__graph" cases={casesType} />
+        {
+          loading ? (<CircularProgress />) : (
+            <LineGraph className="app__graph" cases={casesType} />
+          )
+        }
         {/* Graph */}
       </CardContent>
     </Card>
