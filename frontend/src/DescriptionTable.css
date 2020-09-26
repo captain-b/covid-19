@@ -41,7 +41,7 @@
 }
 
 .description__header__titles_descriptions {
-	margin-top: 10px;
+	margin-top: 20px;
 	margin-right: 20px;
 	display: flex;
 }
@@ -63,35 +63,39 @@
 }
 
 .description__header__titles_description1 {
-	width: 50%
+	width: 50%;
 }
 
 .description__header__titles_description2 {
-	width: 50%
+	width: 50%;
 }
 
 .description__header__titles_description1__candidates {
 	color: grey;
 	font-weight: 700 !important;
 	font-size: 0.8rem !important;
+	margin-bottom: 5px
 }
 
 .description__header__titles_description1__phase {
 	color: grey;
 	font-weight: 700 !important;
 	font-size: 0.8rem !important;
+	margin-bottom: 5px
 }
 
 .description__header__titles_description2__sponsors {
 	color: grey;
 	font-weight: 700 !important;
 	font-size: 0.8rem !important;
+	margin-bottom: 5px
 }
 
 .description__header__titles_description2__institutions {
 	color: grey;
 	font-weight: 700 !important;
 	font-size: 0.8rem !important;
+	margin-bottom: 5px
 }
 
 
