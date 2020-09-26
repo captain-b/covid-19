@@ -5,6 +5,11 @@
 	border-radius: 8px;
 	margin-top: 16px;
 	box-shadow: 0 0 8px -4px rgba(0,0,0,0.5);
+  	transition: box-shadow 0.3s ease-in-out;
+}
+
+.description:hover {
+	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
 }
 
 .description__details__box {
