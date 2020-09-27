@@ -1,5 +1,5 @@
 import React from 'react';
-import './YouTubeTable.css'
+import './../css/YouTubeTable.css'
 
 function YouTubeTable({backgroundColor}) {
 	return (

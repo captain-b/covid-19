@@ -1,6 +1,6 @@
 import React from 'react';
-import './DescriptionTable.css'
-import './App.css';
+import './../css/DescriptionTable.css'
+import './../css/App.css';
 
 function DescriptionTable({i, backgroundColor, study, isSelected, ...props}) {
 	const sponsorsElement = study.sponsors.length > 1 ? <div className="description__header__titles_description2__sponsors"><div style={{color: 'black', display: 'inline'}}>Sponsors: </div>{study.sponsors.join(', ')}</div> : <div className="description__header__titles_description2__sponsors"><div style={{color: 'black', display: 'inline'}}>Sponsor: </div>{study.sponsors}</div> 

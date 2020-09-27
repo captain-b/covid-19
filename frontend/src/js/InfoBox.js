@@ -3,7 +3,7 @@ import {
 	CircularProgress, Card,
 	CardContent, Typography
 } from '@material-ui/core';
-import './InfoBox.css';
+import './../css/InfoBox.css';
 
 function InfoBox({isLoading, backgroundColor, title, cases, totalCases, isPurple, isRed, isGreen, active, ...props}) {
 	return (

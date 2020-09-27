@@ -4,16 +4,16 @@ import {
   Select, FormControl, 
   Card, CardContent
 } from '@material-ui/core';
-import './App.css';
+import './css/App.css';
 import 'leaflet/dist/leaflet.css';
 import Logo from './icons8-coronavirus-50.png';
-import InfoBox from './InfoBox';
-import Map from './Map.js';
-import Table from './Table';
-import LineGraph from './LineGraph';
-import DescriptionTable from './DescriptionTable';
-import YouTubeTable from './YouTubeTable';
-import {useWindowDimensions, sortData, prettyPrintStat} from './util';
+import InfoBox from './js/InfoBox';
+import Map from './js/Map.js';
+import Table from './js/Table';
+import LineGraph from './js/LineGraph';
+import DescriptionTable from './js/DescriptionTable';
+import YouTubeTable from './js/YouTubeTable';
+import {useWindowDimensions, sortData, prettyPrintStat} from './js/utils/util';
 
 function App() {
 
@@ -203,7 +203,7 @@ function App() {
   function loadFooter() {
     return (
       <div className="custom__footer" style={{backgroundColor: backgroundColor}}>
-        <h5 class="footer__owner">Captain-B &copy;</h5>
+        <h5 style={{color: 'grey'}} class="footer__owner">Captain-B &copy;</h5>
       </div>
     );
   }
