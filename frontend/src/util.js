@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {Circle, Popup} from 'react-leaflet';
 import numeral from 'numeral';
 
@@ -53,3 +53,27 @@ export const showDataOnMap = (data, caseType) => {
 
 export const prettyPrintStat = (stat) =>
 	stat ? `+${numeral(stat).format('0.0a')}` : '+0'
+
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+export const useWindowDimensions = () => {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
