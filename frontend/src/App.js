@@ -34,7 +34,7 @@ function App() {
       custom_op: "rgba(66, 36, 119, 1)"
     },
     recovered: {
-      custom_op: "rgba(9, 109, 35, 0.75)"
+      custom_op: "rgba(9, 109, 35, 1)"
     },
     deaths: {
       custom_op: "rgba(119, 1, 0, 1)"
@@ -107,7 +107,7 @@ function App() {
         setMapCountries(countryList);
         setFilteredMapCountries(countryList);
         setSortedCountries(countryList);
-        document.body.style = `background: ${casesTypeColors.cases.custom_op}; -webkit-transition: background 1000ms linear; -ms-transition: background 1000ms linear; transition: background 1000ms linear;`; // Set body background coloe
+        document.body.style = `background: ${casesTypeColors.cases.custom_op}; -webkit-transition: background 500ms linear; -ms-transition: background 500ms linear; transition: background 500ms linear;`; // Set body background coloe
       } catch (error) {
         handleError(error);
       }
@@ -148,7 +148,7 @@ function App() {
 
   function changeParams(clickedCase) {
     setCasesType(clickedCase);
-    document.body.style = `background: ${casesTypeColors[clickedCase].custom_op}; -webkit-transition: background 1000ms linear; -ms-transition: background 1000ms linear; transition: background 1000ms linear;`;
+    document.body.style = `background: ${casesTypeColors[clickedCase].custom_op}; -webkit-transition: background 500ms linear; -ms-transition: background 500ms linear; transition: background 500ms linear;`;
     if (clickedCase === 'cases')
       setBackgroundColor(backgroundTypeColors.cases.custom_op);
     else if (clickedCase === 'deaths')
