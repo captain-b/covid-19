@@ -13,7 +13,7 @@ import Table from './Table';
 import LineGraph from './LineGraph';
 import DescriptionTable from './DescriptionTable';
 import YouTubeTable from './YouTubeTable';
-import {sortData, prettyPrintStat} from './util';
+import {useWindowDimensions, sortData, prettyPrintStat} from './util';
 
 function App() {
 
@@ -56,6 +56,8 @@ function App() {
   const [showAll, setShowAll] = useState(true);
   const [loading, setLoading] = useState(true);
   const [showAllCountriesOnMap , setShowAllCountriesOnMap] = useState(true);
+  const [initialMapLoad, setInitialMapLoad] = useState(true);
+  const { height, width } = useWindowDimensions();
 
   const backendURL = process.env.NODE_ENV === 'production' ? 'https://covid-tracker-captain-b.herokuapp.com' : process.env.REACT_APP_BACKEND_URL;
 
@@ -125,7 +127,16 @@ function App() {
       setLoading(false);
       setSelectedCountryData(info); // Set and display the selected country
 
-      setMapCenter([info.location.lat, info.location.long]);
+      setMapCenter([1, 1]);
+      if (initialMapLoad) {
+        setInitialMapLoad(false);
+        setTimeout(
+          () => setMapCenter([info.location.lat, info.location.long]), 
+          500
+        );
+      } else {
+        setMapCenter([info.location.lat, info.location.long]);
+      }
       setMapZoom(5);
     } catch (error) {
       handleError(error);
@@ -181,7 +192,7 @@ function App() {
       setShowAllCountriesOnMap(true);
       setFilteredMapCountries(mapCountries);
     }
-    setMapZoom(5);
+    setMapZoom(1.5);
   }
 
   function loadOriginalCountries() {
@@ -189,72 +200,84 @@ function App() {
     setFilteredMapCountries(mapCountries);
   }
 
+  function loadFooter() {
+    return (
+      <div className="custom__footer" style={{backgroundColor: backgroundColor}}>
+        <h5 class="footer__owner">Captain-B &copy;</h5>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
-    <div className="app__left">
-      <div className="app__header">
-        <div className="app__header__title">
-          <img src={Logo} />
-          <h1 style={{color: 'white'}}>Covid-19 Live Stats</h1>
+      <div className="app__left">
+        <div className="app__header">
+          <div className="app__header__title">
+            <img src={Logo} />
+            <h1 style={{color: 'white'}}>Covid-19 Live Stats</h1>
+          </div>
+          {/* Create a dropdown box to display country names and codes*/}
+          <FormControl style={{backgroundColor: backgroundColor}} className="app__dropdown">
+            <Select variant="outlined" value={selectedCountry} onChange={countryChange}>
+            <MenuItem onClick={loadOriginalCountries} value="worldwide"><img className="flag-img" src="https://vignette.wikia.nocookie.net/oratia/images/6/63/Global_union_flag.png/revision/latest/top-crop/width/360/height/450?cb=20151225033917" alt="Country Flag" style={{marginRight: '10px', width: '15px', height: '15px'}}/>World Wide</MenuItem>
+            {
+              countries.map(country => (<MenuItem onClick={loadOriginalCountries} value={country.iso3}><img className="flag-img" src={country.flag} alt="Country Flag" style={{marginRight: '10px'}}/>{country.country}</MenuItem>))
+            }
+            </Select>
+          </FormControl>
         </div>
-        {/* Create a dropdown box to display country names and codes*/}
-        <FormControl style={{backgroundColor: backgroundColor}} className="app__dropdown">
-          <Select variant="outlined" value={selectedCountry} onChange={countryChange}>
-          <MenuItem onClick={loadOriginalCountries} value="worldwide"><img className="flag-img" src="https://vignette.wikia.nocookie.net/oratia/images/6/63/Global_union_flag.png/revision/latest/top-crop/width/360/height/450?cb=20151225033917" alt="Country Flag" style={{marginRight: '10px', width: '15px', height: '15px'}}/>World Wide</MenuItem>
+
+        <div className="app__stats">
+          <InfoBox isLoading={loading} isPurple backgroundColor={backgroundColor} active={casesType === "cases"} onClick={e => changeParams('cases')} title="Today's Cases:" cases={prettyPrintStat(selectedCountryData.today)} totalCases={prettyPrintStat(selectedCountryData.cases)} />
+          <InfoBox isLoading={loading} isGreen backgroundColor={backgroundColor} active={casesType === "recovered"} onClick={e => changeParams('recovered')} title="Recovered Today:" cases={prettyPrintStat(selectedCountryData.recoveredToday)} totalCases={prettyPrintStat(selectedCountryData.recovered)} />
+          <InfoBox isLoading={loading} isRed backgroundColor={backgroundColor} active={casesType === "deaths"} onClick={e => changeParams('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
+        </div>
+
+        <Map showAllOnClick={showAllCountries} showAll={showAllCountriesOnMap} backgroundColor={backgroundColor} cases={casesType} countries={filteredMapCountries} center={mapCenter} zoom={mapZoom} />
+
+        <YouTubeTable backgroundColor={backgroundColor} src="https://www.youtube.com/embed?v=BtN-goy9VOY&ab_channel=Kurzgesagt%E2%80%93InaNutshell" />
+
+        <div className="vaccine__box" style={{backgroundColor: backgroundColor}}>
+          <div className="vaccine__box__header">
+            <h1>Vaccine Trials:</h1>
+            {vaccineDetails.length <= 3 ? (
+              <div className="header" onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer', textAlign: 'center'}} className="vaccine__box__header__showall">Show all {originalVaccineDetails.length} studies</div>
+             ) : (
+              <div className="header" onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer', textAlign: 'center'}} className="vaccine__box__header__showall">Show first 3 studies</div>
+             )}
+          </div>
           {
-            countries.map(country => (<MenuItem onClick={loadOriginalCountries} value={country.iso3}><img className="flag-img" src={country.flag} alt="Country Flag" style={{marginRight: '10px'}}/>{country.country}</MenuItem>))
+            loading ? (<CircularProgress />) : (
+               vaccineDetails.map((study, i) => (
+                  <DescriptionTable i={i} onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
+               ))
+             )
           }
-          </Select>
-        </FormControl>
-      </div>
-
-      <div className="app__stats">
-        <InfoBox isLoading={loading} isPurple backgroundColor={backgroundColor} active={casesType === "cases"} onClick={e => changeParams('cases')} title="Today's Cases:" cases={prettyPrintStat(selectedCountryData.today)} totalCases={prettyPrintStat(selectedCountryData.cases)} />
-        <InfoBox isLoading={loading} isGreen backgroundColor={backgroundColor} active={casesType === "recovered"} onClick={e => changeParams('recovered')} title="Recovered Today:" cases={prettyPrintStat(selectedCountryData.recoveredToday)} totalCases={prettyPrintStat(selectedCountryData.recovered)} />
-        <InfoBox isLoading={loading} isRed backgroundColor={backgroundColor} active={casesType === "deaths"} onClick={e => changeParams('deaths')} title="Deaths Today:" cases={prettyPrintStat(selectedCountryData.deathsToday)} totalCases={prettyPrintStat(selectedCountryData.deaths)} />
-      </div>
-
-      <Map showAllOnClick={showAllCountries} showAll={showAllCountriesOnMap} backgroundColor={backgroundColor} cases={casesType} countries={filteredMapCountries} center={mapCenter} zoom={mapZoom} />
-
-      <YouTubeTable backgroundColor={backgroundColor} src="https://www.youtube.com/embed?v=BtN-goy9VOY&ab_channel=Kurzgesagt%E2%80%93InaNutshell" />
-
-      <div className="vaccine__box" style={{backgroundColor: backgroundColor}}>
-        <div className="vaccine__box__header">
-          <h1>Vaccine Trials:</h1>
-          {vaccineDetails.length <= 3 ? (
-            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer', textAlign: 'center'}} className="vaccine__box__header__showall">Show all {originalVaccineDetails.length} studies</div>
-           ) : (
-            <div onClick={showAllVaccineTrials} style={{backgroundColor: backgroundColor, cursor: 'pointer', textAlign: 'center'}} className="vaccine__box__header__showall">Show first 3 studies</div>
-           )}
         </div>
         {
-          loading ? (<CircularProgress />) : (
-             vaccineDetails.map((study, i) => (
-                <DescriptionTable i={i} onClick={e => selectVaccineTable(i)} isSelected={study.selected} backgroundColor={backgroundColor} study={study.trial}></DescriptionTable>
-             ))
-           )
+          width >= 990 ? (loadFooter()) : ''
         }
       </div>
-
-    </div>
-    <Card style={{backgroundColor: backgroundColor}} className="app__right">
-      <CardContent>
-        <h3>Live Cases Today</h3>
-        {
-          loading ? (<CircularProgress />) : (
-            <Table countries={soretdCountries} />
-          )
-        }
-        <h3 className="app__graphTitle">Worlwide new {casesType}</h3>
-        {
-          loading ? (<CircularProgress />) : (
-            <LineGraph className="app__graph" cases={casesType} />
-          )
-        }
-        {/* Graph */}
-      </CardContent>
-    </Card>
-      
+      <Card style={{backgroundColor: backgroundColor}} className="app__right">
+        <CardContent>
+          <h3>Live Cases Today</h3>
+          {
+            loading ? (<CircularProgress />) : (
+              <Table countries={soretdCountries} />
+            )
+          }
+          <h3 className="app__graphTitle">Worlwide new {casesType}</h3>
+          {
+            loading ? (<CircularProgress />) : (
+              <LineGraph className="app__graph" cases={casesType} />
+            )
+          }
+          {/* Graph */}
+        </CardContent>
+      </Card>
+      {
+        width <= 990 ? (loadFooter()) : ''
+      }
     </div>
   );
 }
