@@ -1,5 +1,6 @@
 import React from 'react';
 import './DescriptionTable.css'
+import './App.css';
 
 function DescriptionTable({i, backgroundColor, study, isSelected, ...props}) {
 	const sponsorsElement = study.sponsors.length > 1 ? <div className="description__header__titles_description2__sponsors"><div style={{color: 'black', display: 'inline'}}>Sponsors: </div>{study.sponsors.join(', ')}</div> : <div className="description__header__titles_description2__sponsors"><div style={{color: 'black', display: 'inline'}}>Sponsor: </div>{study.sponsors}</div> 
@@ -9,7 +10,7 @@ function DescriptionTable({i, backgroundColor, study, isSelected, ...props}) {
 		<div style={{backgroundColor: backgroundColor}} className="description">
 			<div className="description__header" onClick={props.onClick}>
 				<div className="description__header__titles">
-					<h3>{i + 1}. {study.mechanism}</h3>
+					<h3 className="header">{i + 1}. {study.mechanism}</h3>
 					<img style={{width: '25px', height: '25px'}} className={`description__header__titles__toggle_button${isSelected ? '__selected' : ''}`} src="https://img.icons8.com/fluent-systems-regular/96/000000/low-importance.png"/>
 				</div>
 				<div className="separator__line"></div>
